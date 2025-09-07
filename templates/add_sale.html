@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}Record Sale - POS System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Record Sale</h1>
+            <a href="{{ url_for('sales') }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Back to Sales
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-cart-plus"></i> New Sale Information
+            </div>
+            <div class="card-body">
+                <form method="POST" id="saleForm">
+                    <div class="form-group">
+                        <label for="product_id" class="form-label">Product</label>
+                        <select class="form-control" id="product_id" name="product_id" required onchange="updateProductInfo()">
+                            <option value="">Select a product...</option>
+                            {% for product in products %}
+                                <option value="{{ product.id }}" data-price="{{ product.price }}" data-stock="{{ product.stock }}">
+                                    {{ product.name }} - ${{ "%.2f"|format(product.price) }} ({{ product.stock }} in stock)
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="quantity" class="form-label">Quantity</label>
+                                <input type="number" class="form-control" id="quantity" name="quantity" min="1" required onchange="updateTotal()">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="unit_price" class="form-label">Unit Price</label>
+                                <input type="text" class="form-control" id="unit_price" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="total_price" class="form-label">Total Price</label>
+                                <input type="text" class="form-control" id="total_price" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="stock_warning" class="alert alert-warning d-none">
+                        <i class="bi bi-exclamation-triangle"></i> <span id="stock_message"></span>
+                    </div>
+                    
+                    <div class="d-flex justify-content-end gap-2">
+                        <a href="{{ url_for('sales') }}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                            <i class="bi bi-check"></i> Record Sale
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function updateProductInfo() {
+    const productSelect = document.getElementById('product_id');
+    const selectedOption = productSelect.options[productSelect.selectedIndex];
+    const unitPriceInput = document.getElementById('unit_price');
+    const quantityInput = document.getElementById('quantity');
+    const stockWarning = document.getElementById('stock_warning');
+    
+    if (selectedOption.value) {
+        const price = selectedOption.getAttribute('data-price');
+        const stock = parseInt(selectedOption.getAttribute('data-stock'));
+        
+        unitPriceInput.value = '$' + parseFloat(price).toFixed(2);
+        quantityInput.max = stock;
+        quantityInput.value = 1;
+        
+        if (stock === 0) {
+            stockWarning.classList.remove('d-none');
+            document.getElementById('stock_message').textContent = 'This product is out of stock!';
+            document.getElementById('submitBtn').disabled = true;
+        } else if (stock < 5) {
+            stockWarning.classList.remove('d-none');
+            document.getElementById('stock_message').textContent = `Low stock warning: Only ${stock} items remaining.`;
+            document.getElementById('submitBtn').disabled = false;
+        } else {
+            stockWarning.classList.add('d-none');
+            document.getElementById('submitBtn').disabled = false;
+        }
+        
+        updateTotal();
+    } else {
+        unitPriceInput.value = '';
+        quantityInput.value = '';
+        stockWarning.classList.add('d-none');
+    }
+}
+
+function updateTotal() {
+    const productSelect = document.getElementById('product_id');
+    const selectedOption = productSelect.options[productSelect.selectedIndex];
+    const quantity = parseInt(document.getElementById('quantity').value) || 0;
+    const totalPriceInput = document.getElementById('total_price');
+    
+    if (selectedOption.value && quantity > 0) {
+        const price = parseFloat(selectedOption.getAttribute('data-price'));
+        const total = price * quantity;
+        totalPriceInput.value = '$' + total.toFixed(2);
+        
+        const stock = parseInt(selectedOption.getAttribute('data-stock'));
+        if (quantity > stock) {
+            document.getElementById('stock_warning').classList.remove('d-none');
+            document.getElementById('stock_message').textContent = `Insufficient stock! Only ${stock} items available.`;
+            document.getElementById('submitBtn').disabled = true;
+        } else if (stock < 5) {
+            document.getElementById('stock_warning').classList.remove('d-none');
+            document.getElementById('stock_message').textContent = `Low stock warning: Only ${stock} items remaining.`;
+            document.getElementById('submitBtn').disabled = false;
+        } else {
+            document.getElementById('stock_warning').classList.add('d-none');
+            document.getElementById('submitBtn').disabled = false;
+        }
+    } else {
+        totalPriceInput.value = '';
+    }
+}
+</script>
+{% endblock %}

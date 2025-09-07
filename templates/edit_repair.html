@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Repair Job - POS System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Edit Repair Job #{{ repair.id }}</h1>
+            <a href="{{ url_for('repairs') }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Back to Repairs
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-pencil"></i> Edit Repair Job Information
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="mb-3 text-primary">Customer Information</h5>
+                            <div class="form-group">
+                                <label for="customer_name" class="form-label">Customer Name</label>
+                                <input type="text" class="form-control" id="customer_name" name="customer_name" 
+                                       value="{{ repair.customer_name }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customer_phone" class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="customer_phone" name="customer_phone" 
+                                       value="{{ repair.customer_phone }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="mb-3 text-secondary">Device Information</h5>
+                            <div class="form-group">
+                                <label for="device_type" class="form-label">Device Type</label>
+                                <select class="form-control" id="device_type" name="device_type" required>
+                                    <option value="">Select device type...</option>
+                                    <option value="Smartphone" {{ 'selected' if repair.device_type == 'Smartphone' }}>Smartphone</option>
+                                    <option value="Tablet" {{ 'selected' if repair.device_type == 'Tablet' }}>Tablet</option>
+                                    <option value="Laptop" {{ 'selected' if repair.device_type == 'Laptop' }}>Laptop</option>
+                                    <option value="Desktop" {{ 'selected' if repair.device_type == 'Desktop' }}>Desktop</option>
+                                    <option value="Watch" {{ 'selected' if repair.device_type == 'Watch' }}>Smart Watch</option>
+                                    <option value="Other" {{ 'selected' if repair.device_type == 'Other' }}>Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="device_model" class="form-label">Device Model</label>
+                                <input type="text" class="form-control" id="device_model" name="device_model" 
+                                       value="{{ repair.device_model }}" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="issue_description" class="form-label">Issue Description</label>
+                                <textarea class="form-control" id="issue_description" name="issue_description" rows="4" required>{{ repair.issue_description }}</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="repair_cost" class="form-label">Repair Cost ($)</label>
+                                <input type="number" class="form-control" id="repair_cost" name="repair_cost" 
+                                       step="0.01" min="0" value="{{ repair.repair_cost }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="status" class="form-label">Status</label>
+                                <select class="form-control" id="status" name="status" required>
+                                    <option value="Pending" {{ 'selected' if repair.status == 'Pending' }}>Pending</option>
+                                    <option value="In Progress" {{ 'selected' if repair.status == 'In Progress' }}>In Progress</option>
+                                    <option value="Completed" {{ 'selected' if repair.status == 'Completed' }}>Completed</option>
+                                    <option value="Delivered" {{ 'selected' if repair.status == 'Delivered' }}>Delivered</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-12">
+                            <small class="text-muted">
+                                Created: {{ repair.created_at.strftime('%B %d, %Y at %I:%M %p') }}
+                                {% if repair.updated_at != repair.created_at %}
+                                    | Last updated: {{ repair.updated_at.strftime('%B %d, %Y at %I:%M %p') }}
+                                {% endif %}
+                            </small>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-end gap-2 mt-3">
+                        <a href="{{ url_for('repairs') }}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check"></i> Update Repair Job
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

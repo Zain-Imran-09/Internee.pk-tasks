@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Add Repair Job - POS System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Add Repair Job</h1>
+            <a href="{{ url_for('repairs') }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Back to Repairs
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-tools"></i> New Repair Job Information
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="mb-3 text-primary">Customer Information</h5>
+                            <div class="form-group">
+                                <label for="customer_name" class="form-label">Customer Name</label>
+                                <input type="text" class="form-control" id="customer_name" name="customer_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customer_phone" class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="customer_phone" name="customer_phone" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="mb-3 text-secondary">Device Information</h5>
+                            <div class="form-group">
+                                <label for="device_type" class="form-label">Device Type</label>
+                                <select class="form-control" id="device_type" name="device_type" required>
+                                    <option value="">Select device type...</option>
+                                    <option value="Smartphone">Smartphone</option>
+                                    <option value="Tablet">Tablet</option>
+                                    <option value="Laptop">Laptop</option>
+                                    <option value="Desktop">Desktop</option>
+                                    <option value="Watch">Smart Watch</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="device_model" class="form-label">Device Model</label>
+                                <input type="text" class="form-control" id="device_model" name="device_model" placeholder="e.g., iPhone 13, MacBook Pro 2021" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label for="issue_description" class="form-label">Issue Description</label>
+                                <textarea class="form-control" id="issue_description" name="issue_description" rows="4" 
+                                          placeholder="Describe the issue in detail..." required></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="repair_cost" class="form-label">Estimated Repair Cost ($)</label>
+                                <input type="number" class="form-control" id="repair_cost" name="repair_cost" 
+                                       step="0.01" min="0" value="0.00" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-end gap-2">
+                        <a href="{{ url_for('repairs') }}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check"></i> Create Repair Job
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

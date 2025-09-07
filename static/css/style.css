@@ -1,0 +1,283 @@
+/* POS System Styles */
+:root {
+    --primary-color: #28A745;
+    --secondary-color: #007BFF;
+    --warning-color: #FFC107;
+    --background-color: #F8F9FA;
+    --text-color: #212529;
+    --accent-color: #6C757D;
+    --white: #FFFFFF;
+    --spacing: 16px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* Header Styles */
+.navbar {
+    background-color: var(--primary-color) !important;
+    padding: var(--spacing);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    color: var(--white) !important;
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.navbar-nav .nav-link {
+    color: rgba(255,255,255,0.9) !important;
+    font-weight: 500;
+    margin: 0 8px;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    color: var(--white) !important;
+}
+
+/* Container and Layout */
+.container-fluid {
+    padding: var(--spacing);
+}
+
+.main-content {
+    min-height: calc(100vh - 80px);
+}
+
+/* Card Styles */
+.card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: var(--spacing);
+    background-color: var(--white);
+}
+
+.card-header {
+    background-color: var(--white);
+    border-bottom: 1px solid #e9ecef;
+    padding: var(--spacing);
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.card-body {
+    padding: var(--spacing);
+}
+
+/* Button Styles */
+.btn {
+    border-radius: 6px;
+    font-weight: 500;
+    padding: 8px 16px;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.btn-warning {
+    background-color: var(--warning-color);
+    border-color: var(--warning-color);
+    color: var(--text-color);
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-sm {
+    padding: 4px 8px;
+    font-size: 0.875rem;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: var(--spacing);
+}
+
+.form-label {
+    font-weight: 500;
+    margin-bottom: 4px;
+    color: var(--text-color);
+}
+
+.form-control {
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    padding: 8px 12px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+.form-select {
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    padding: 8px 12px;
+}
+
+/* Table Styles */
+.table {
+    background-color: var(--white);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table th {
+    background-color: var(--background-color);
+    border-top: none;
+    font-weight: 600;
+    color: var(--text-color);
+    padding: 12px;
+}
+
+.table td {
+    padding: 12px;
+    vertical-align: middle;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0,0,0,0.02);
+}
+
+/* Alert Styles */
+.alert {
+    border-radius: 6px;
+    border: none;
+    padding: var(--spacing);
+    margin-bottom: var(--spacing);
+}
+
+.alert-success {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #721c24;
+}
+
+.alert-warning {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #856404;
+}
+
+/* Dashboard Specific Styles */
+.stats-card {
+    text-align: center;
+    padding: 2rem 1rem;
+}
+
+.stats-card h3 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.stats-card p {
+    color: var(--accent-color);
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: 0.5px;
+}
+
+.low-stock-item {
+    background-color: rgba(255, 193, 7, 0.1);
+    border-left: 4px solid var(--warning-color);
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    border-radius: 0 4px 4px 0;
+}
+
+/* Status Badges */
+.badge {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.badge-success {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+.badge-warning {
+    background-color: var(--warning-color);
+    color: var(--text-color);
+}
+
+.badge-info {
+    background-color: var(--secondary-color);
+    color: var(--white);
+}
+
+.badge-secondary {
+    background-color: var(--accent-color);
+    color: var(--white);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container-fluid {
+        padding: 8px;
+    }
+    
+    .card-body {
+        padding: 12px;
+    }
+    
+    .stats-card h3 {
+        font-size: 2rem;
+    }
+    
+    .table-responsive {
+        font-size: 0.875rem;
+    }
+}
+
+/* Utility Classes */
+.text-primary { color: var(--primary-color) !important; }
+.text-secondary { color: var(--secondary-color) !important; }
+.text-warning { color: var(--warning-color) !important; }
+.text-muted { color: var(--accent-color) !important; }
+
+.bg-primary { background-color: var(--primary-color) !important; }
+.bg-secondary { background-color: var(--secondary-color) !important; }
+.bg-warning { background-color: var(--warning-color) !important; }
+
+.border-primary { border-color: var(--primary-color) !important; }
+.border-warning { border-color: var(--warning-color) !important; }

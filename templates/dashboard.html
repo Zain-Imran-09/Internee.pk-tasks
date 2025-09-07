@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - POS System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">Dashboard</h1>
+    </div>
+</div>
+
+<!-- Stats Cards -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body stats-card">
+                <h3 class="text-primary">${{ "%.2f"|format(today_sales) }}</h3>
+                <p>Today's Sales</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body stats-card">
+                <h3 class="text-warning">{{ low_stock_products|length }}</h3>
+                <p>Low Stock Items</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body stats-card">
+                <h3 class="text-info">{{ pending_repairs }}</h3>
+                <p>Pending Repairs</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body stats-card">
+                <h3 class="text-secondary">{{ recent_sales|length }}</h3>
+                <p>Recent Sales</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Low Stock Alerts -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-exclamation-triangle text-warning"></i> Low Stock Alerts</span>
+                <a href="{{ url_for('products') }}" class="btn btn-sm btn-outline-primary">View All Products</a>
+            </div>
+            <div class="card-body">
+                {% if low_stock_products %}
+                    {% for product in low_stock_products %}
+                        <div class="low-stock-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>{{ product.name }}</strong>
+                                    <small class="text-muted d-block">{{ product.category }}</small>
+                                </div>
+                                <span class="badge badge-warning">{{ product.stock }} left</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted">All products are well stocked!</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Sales -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-cart text-primary"></i> Recent Sales</span>
+                <a href="{{ url_for('sales') }}" class="btn btn-sm btn-outline-primary">View All Sales</a>
+            </div>
+            <div class="card-body">
+                {% if recent_sales %}
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Qty</th>
+                                    <th>Total</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for sale in recent_sales %}
+                                    <tr>
+                                        <td>{{ sale.product.name }}</td>
+                                        <td>{{ sale.quantity }}</td>
+                                        <td>${{ "%.2f"|format(sale.total_price) }}</td>
+                                        <td>{{ sale.sale_date.strftime('%m/%d %H:%M') }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-muted">No sales recorded yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-lightning"></i> Quick Actions
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 mb-2">
+                        <a href="{{ url_for('add_product') }}" class="btn btn-primary w-100">
+                            <i class="bi bi-plus-circle"></i> Add Product
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{{ url_for('add_sale') }}" class="btn btn-success w-100">
+                            <i class="bi bi-cart-plus"></i> Record Sale
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{{ url_for('add_repair') }}" class="btn btn-info w-100">
+                            <i class="bi bi-tools"></i> Add Repair
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{{ url_for('products') }}" class="btn btn-secondary w-100">
+                            <i class="bi bi-box"></i> Manage Inventory
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
